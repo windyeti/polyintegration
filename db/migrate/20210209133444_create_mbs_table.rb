@@ -16,6 +16,7 @@ class CreateMbsTable < ActiveRecord::Migration[5.0]
       t.string :country
       t.string :brend
       t.string :param
+      t.boolean :check, default: false
 
       t.timestamps
     end

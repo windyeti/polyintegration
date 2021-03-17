@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210225140653) do
+ActiveRecord::Schema.define(version: 20210219105105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 20210225140653) do
     t.integer  "quantity"
     t.string   "desc"
     t.bigint   "productid_product"
-    t.boolean  "check"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.boolean  "check",             default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -62,10 +62,9 @@ ActiveRecord::Schema.define(version: 20210225140653) do
     t.string   "country"
     t.string   "brend"
     t.string   "param"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.boolean  "check",             default: false
-    t.bigint   "productid_product"
+    t.boolean  "check",      default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -80,28 +79,25 @@ ActiveRecord::Schema.define(version: 20210225140653) do
     t.integer  "quantity"
     t.string   "image"
     t.string   "url"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
     t.decimal  "provider_price"
     t.bigint   "productid_insales"
     t.bigint   "productid_var_insales"
-    t.string   "product_sku_provider"
-    t.string   "sku_var"
-    t.integer  "provider_id"
+    t.string   "productable_type"
+    t.integer  "productable_id"
     t.boolean  "visible",               default: true
-    t.bigint   "productid_provider"
-    t.integer  "store"
     t.decimal  "komplekt"
-    t.index ["provider_id"], name: "index_products_on_provider_id", using: :btree
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["productable_type", "productable_id"], name: "index_products_on_productable_type_and_productable_id", using: :btree
   end
 
   create_table "providers", force: :cascade do |t|
     t.string   "name"
     t.string   "prefix"
     t.string   "link"
+    t.string   "permalink"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "permalink"
   end
 
   create_table "users", force: :cascade do |t|

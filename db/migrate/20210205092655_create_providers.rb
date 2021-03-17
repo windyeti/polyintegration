@@ -4,6 +4,7 @@ class CreateProviders < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :prefix
       t.string :link
+      t.string :permalink
 
       t.timestamps
     end

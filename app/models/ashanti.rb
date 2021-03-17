@@ -1,4 +1,5 @@
 class Ashanti < ApplicationRecord
+  has_many :products, as: :productable
 
   scope :product_all_size, -> { order(:id).size }
   scope :product_qt_not_null, -> { where('quantity > 0') }
@@ -58,7 +59,7 @@ class Ashanti < ApplicationRecord
     end
     # ПРОВЕРКА НА НАЛИЧИЕ ТОВАРОВ В ФАЙЛЕ -- END
 
-    Ashanti.all.find_each(batch_size: 1000) do |mb|
+    Ashanti.find_each(batch_size: 1000) do |mb|
       mb.check = false
       mb.quantity = 0
       mb.save
@@ -96,13 +97,15 @@ class Ashanti < ApplicationRecord
     Ashanti.find_each(batch_size: 1000) do |ashanti|
       product_sku = "ACY#{ashanti.vendorcode}"
       products = Product.where(sku: product_sku)
-      products.each do |product|
-        product.productid_provider = ashanti.id
-        product.provider_id = 2
-        product.save
-        ashanti.productid_product = product.id
-        ashanti.save
-      end
+
+      ashanti.products << products if products.present?
+      # products.each do |product|
+      #   product.productid_provider = ashanti.id
+      #   product.provider_id = 2
+      #   product.save
+      #   ashanti.productid_product = product.id
+      #   ashanti.save
+      # end
     end
   end
 

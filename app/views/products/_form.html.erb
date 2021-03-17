@@ -1,5 +1,7 @@
 
 <%= simple_form_for(@product) do |f| %>
+  <% p @product.productable_type %>
+  <% p selected(@product) %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
@@ -30,13 +32,12 @@
     </span>
 
     <span class="col-md-2">
-<!--      Остаток: <strong><%#= @product.quantity %></strong>-->
       <%= f.input :quantity, label: 'Остаток:' %>
     </span>
 
     <span class="col-12 editable">
-      <%= f.input :provider_id,:collection => Provider.all,:label_method => :name, :value_method => :id, :label => "Поставщики" , :include_blank => "Выберите",  wrapper_html: { class: "col-md-4" } %>
-      <%= f.input :productid_provider, label: 'ID товара в таблице поставщика',  wrapper_html: { class: "col-md-4" } %>
+      <%= f.input :productable_type, collection: Provider.all.order(:id), value_method: :permalink, label_method: :name, label: "Поставщики", include_blank: 'Выберите', selected: @product.productable_type,  wrapper_html: { class: "col-md-4" }%>
+      <%= f.input :productable_id, label: 'ID товара в таблице поставщика',  wrapper_html: { class: "col-md-4" }%>
     </span>
 
     <span class="col-12">

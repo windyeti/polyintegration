@@ -12,6 +12,12 @@ class CreateProducts < ActiveRecord::Migration[5.0]
       t.integer :quantity
       t.string :image
       t.string :url
+      t.decimal :provider_price
+      t.bigint :productid_insales
+      t.bigint :productid_var_insales
+      t.references :productable, polymorphic: true
+      t.boolean :visible, default: true
+      t.decimal :komplekt
 
       t.timestamps
     end

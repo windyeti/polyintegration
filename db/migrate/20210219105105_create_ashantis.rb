@@ -11,7 +11,7 @@ class CreateAshantis < ActiveRecord::Migration[5.0]
       t.integer :quantity
       t.string :desc
       t.bigint :productid_product
-      t.boolean :check
+      t.boolean :check, default: false
 
       t.timestamps
     end

@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   require 'open-uri'
 
-  belongs_to :provider, optional: true
+  belongs_to :productable, polymorphic: true, optional: true
 
   scope :product_all_size, -> { order(:id).size }
   scope :product_qt_not_null, -> { where('quantity > 0') }
@@ -9,52 +9,14 @@ class Product < ApplicationRecord
   scope :product_cat, -> { order('cat DESC').select(:cat).uniq }
   scope :product_image_nil, -> { where(image: [nil, '']).order(:id) }
 
-  validate :provider_productid_provider
-  # validate :product_provider_exist_free
+  validate :both_fields_fill, on: :update
 
-  # after_update :after_update_product_provider
-
-  def provider_productid_provider
-    unless (!provider_id.present? && !productid_provider.present?) || (provider_id.present? && productid_provider.present?)
-      errors.add(:provider_id, "Оба поля должны быть заполнены или быть пустыми")
-      errors.add(:productid_provider, "Оба поля должны быть заполнены или быть пустыми")
+  def both_fields_fill
+    unless (!productable_id.present? && !productable_type.present?) || (productable_id.present? && productable_type.present?)
+      errors.add(:productable_id, "Оба поля должны быть заполнены или быть пустыми")
+      errors.add(:productable_type, "Оба поля должны быть заполнены или быть пустыми")
     end
   end
-
-  def product_provider_exist_free
-    if provider_id.present? && productid_provider.present?
-      # Сначала удостоверимся что есть такой Товар Поставщика И он уже не связан с другим Товаром
-      begin
-        provider = Provider.find(provider_id)
-        provider_klass = provider.permalink.constantize
-        product_provider = provider_klass.find(productid_provider)
-      rescue
-        errors.add(:provider_id, "Нет такого Товара у Поставщика или Поставщика")
-        errors.add(:productid_provider, "Нет такого Товара у Поставщика или Поставщика")
-        File.open("#{Rails.root}/public/errors_update.txt", 'a') do |f|
-          f.write "[#{Time.now}] - Артикул Товара: #{sku} -- Поставщик: #{Provider.find(provider_id).name} -- ID Товара Поставщика:#{productid_provider} -- Ошибка: Нет такого Товара у Поставщика или Поставщика\n"
-        end
-        return
-      end
-      # Связываемый Товар Поставщика: не связан с каким-либо Товаром, или наш Товар и есть Товар связанный с Товаром Поставщика
-      if product_provider.productid_product.present? && product_provider.productid_product != id
-        errors.add(:provider_id, "Выбранный Товар Поставщика уже связанна с другим Товаром")
-        errors.add(:productid_provider, "Выбранный Товар Поставщика уже связанна с другим Товаром")
-        File.open("#{Rails.root}/public/errors_update.txt", 'a') do |f|
-          f.write "[#{Time.now}] - Артикул Товара: #{sku} -- Поставщик: #{Provider.find(provider_id).name} -- ID Товара Поставщика:#{productid_provider} -- Ошибка: Выбранный Товар Поставщика уже связанна с другим Товаром\n"
-        end
-      end
-    end
-  end
-
-  # def after_update_product_provider
-  #   if provider_id.present? && productid_provider.present?
-  #     p product_provider = provider.permalink.constantize.find(productid_provider) rescue return
-  #     p product_provider.productid_product = id
-  #     product_provider.save
-  #     p product_provider
-  #   end
-  # end
 
   def self.update_price_quantity_all_providers
     Product.import_insales_xml
@@ -65,7 +27,6 @@ class Product < ApplicationRecord
   end
 
   def self.import_insales_xml
-    #
     puts '=====>>>> СТАРТ InSales YML '+Time.now.to_s
     uri = "https://www.storro.ru/marketplace/75518.xml"
     response = RestClient.get uri, :accept => :xml, :content_type => "application/xml"
@@ -73,10 +34,10 @@ class Product < ApplicationRecord
     mypr = data.xpath("//offer")
 
     categories = {}
-    doc_category = data.xpath("category")
+    doc_category = data.xpath("//category")
 
     doc_category.each do |c|
-      categories[c.xpath("parentId")] = c.text
+      categories[c["id"]] = c.text
     end
 
     mypr.each do |pr|

@@ -49,33 +49,8 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
-
-    provider_klass = @product.provider.permalink.constantize if @product.provider
-    id_product_provider = @product.productid_provider if @product.productid_provider
-
     respond_to do |format|
       if @product.update(product_params)
-        # Обнуляем в Товар Постащика --> Товар
-        #
-        # Поиск Товара Поставщика с котрым связан Товар, чтобы разорвать связь.
-        # Новый Товар Поставщика будет связан с Товаром в after_update.
-        # Это надо делать внутри update (после прохождения валидаций)
-        # так как если валидация не пройдет == новая связь не установлена, а старая
-        # связь с Товаром Поставщика будет разорвана (ТоварПоставщика.productid_product == nil)
-        if provider_klass
-          product_provider = provider_klass.find(id_product_provider) rescue nil
-          if product_provider.present?
-            product_provider.productid_product = nil
-            product_provider.save
-          end
-        end
-
-        # Устанавливаем в Товар Постащика --> Товар
-        if @product.provider.present? && @product.productid_provider.present?
-          product_provider = @product.provider.permalink.constantize.find(@product.productid_provider) rescue return
-          product_provider.productid_product = @product.id
-          product_provider.save
-        end
 
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
@@ -195,6 +170,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:sku, :title, :desc, :cat, :charact, :charact_gab, :oldprice, :price, :quantity, :image, :url, :provider_price, :provider_id, :product_sku_provider, :productid_provider)
+      params.require(:product).permit(:sku, :title, :desc, :cat, :charact, :charact_gab, :oldprice, :price, :quantity, :image, :url, :provider_price, :productable_type, :productable_id)
     end
 end

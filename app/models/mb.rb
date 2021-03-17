@@ -1,4 +1,5 @@
 class Mb < ApplicationRecord
+  has_many :products, as: :productable
 
   scope :product_all_size, -> { order(:id).size }
   scope :product_qt_not_null, -> { where('quantity > 0') }
@@ -26,7 +27,7 @@ class Mb < ApplicationRecord
     # связан с товарами Product
     # 2. обнуляем остатки у всех -- те, что будут присутствовать
     # в списке добавят себе цену
-    Mb.all.find_each(batch_size: 1000) do |mb|
+    Mb.find_each(batch_size: 1000) do |mb|
       mb.check = false
       mb.quantity = 0
       mb.save
@@ -70,13 +71,16 @@ class Mb < ApplicationRecord
     Mb.find_each(batch_size: 1000) do |mb|
       product_sku = "МБ#{mb.vendorcode.gsub(/N/, '-')}"
       products = Product.where(sku: product_sku)
-      products.each do |product|
-        product.productid_provider = mb.id
-        product.provider_id = 1
-        product.save
-        mb.productid_product = product.id
-        mb.save
-      end
+      mb.products << products if products.present?
+
+      # products.each do |product|
+      #   product.productid_provider = mb.id
+      #   product.provider_id = 1
+      #   product.save
+      #   mb.productid_product = product.id
+      #   mb.save
+      # end
+
     end
   end
 
