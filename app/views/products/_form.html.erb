@@ -1,7 +1,5 @@
 
 <%= simple_form_for(@product) do |f| %>
-  <% p @product.productable_type %>
-  <% p selected(@product) %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
@@ -10,38 +8,31 @@
        Название: <strong><%= @product.title %></strong>
     </span>
 
-    <span class="col-md-2">
+    <span class="col-md-4">
       Артикул Товара в InSales: <strong><%= @product.sku %></strong>
     </span>
-    <span class="col-md-2">
-      Цена продажи: <strong><%= @product.price %></strong>
+
+    <span class="col-md-4">
+      ID в InSales: <strong><%= @product.insales_id %></strong>
     </span>
-    <span class="col-md-2">
-      Закупочная цена: <strong><%= @product.provider_price %></strong>
+    <span class="col-md-4">
+      ID Варианта в InSales: <strong><%= @product.insales_var_id %></strong>
     </span>
 
-    <span class="col-md-2">
-      ID Товара в InSales: <strong><%= @product.productid_insales %></strong>
+    <span class="col-12">
+      <%= f.input :price, label: 'Цена продажи:' %>
     </span>
-    <span class="col-md-2">
-      ID Варианта Товара в InSales: <strong><%= @product.productid_var_insales %></strong>
-    </span>
-
-    <span class="col-md-2">
-      Видимость: <strong><%= @product.visible ? "выстален" : "скрыт" %></strong>
-    </span>
-
-    <span class="col-md-2">
+    <span class="col-12">
       <%= f.input :quantity, label: 'Остаток:' %>
     </span>
 
     <span class="col-12 editable">
-      <%= f.input :productable_type, collection: Provider.all.order(:id), value_method: :permalink, label_method: :name, label: "Поставщики", include_blank: 'Выберите', selected: @product.productable_type,  wrapper_html: { class: "col-md-4" }%>
-      <%= f.input :productable_id, label: 'ID товара в таблице поставщика',  wrapper_html: { class: "col-md-4" }%>
+      <%= f.input :rt_id, label: "ID у поставщика RT" %>
+      <%= f.input :dr_id, label: "ID у поставщика DR" %>
     </span>
 
     <span class="col-12">
-      Описание: <%= @product.desc %>
+      Описание: <%= @product.desc.truncate(300) %>
     </span>
     <span class="col-12">
       Категория: <strong><%= @product.cat %></strong>

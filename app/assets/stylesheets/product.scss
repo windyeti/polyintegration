@@ -11,11 +11,16 @@ form {
 
 #products_table {
   .sync {
-    background-color: #ffe5ae;
+    background-color: #e5ffdc;
   }
 }
 .form-group.ml-2.button_group {
   span.oi {
     padding: 0;
+  }
+}
+.form_search_distributor {
+  span {
+    background: #99d098;
   }
 }

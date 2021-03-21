@@ -124,22 +124,31 @@ class ProductsController < ApplicationController
     ActionCable.server.broadcast 'start_process', {process_name: "Обновление Цен и Остатков Товаров"}
 
     HardJob.perform_later
-    # Product.delay.update_price_quantity_all_providers
-    # redirect_to products_path, notice: 'Запущена задача обновления Цен и Остатков'
   end
 
-  def import_insales_xml
-    Product.delay.import_insales_xml
-    flash[:notice] = 'Задача обновления каталога запущена'
+  def export_api
+    Product.delay.export_api
+    flash[:notice] = 'Задача экспорт запущена'
+    redirect_to products_path
+  end
+  def linking
+    Product.delay.linking
+    flash[:notice] = 'Задача линкования запущена'
     redirect_to products_path
   end
 
+  def syncronaize
+    Product.delay.syncronaize
+    flash[:notice] = 'Задача синхронизации каталога запущена'
+    redirect_to products_path
+  end
+
+  def import_insales_xml
+    ActionCable.server.broadcast 'start_process', {process_name: "Обновление Товаров InSales"}
+    ProductImportInsalesXmlJob.perform_later
+  end
+
   def import
-    # if Rails.env.development?
-    #   Product.delay.import_insales(params[:file])
-    # else
-    #   Product.delay.import_insales(params[:file])
-    # end
     path_file = params[:file].path
     extend_file = File.extname(params[:file].original_filename)
     ProductImportJob.perform_later(path_file, extend_file)
@@ -170,6 +179,6 @@ class ProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def product_params
-      params.require(:product).permit(:sku, :title, :desc, :cat, :charact, :charact_gab, :oldprice, :price, :quantity, :image, :url, :provider_price, :productable_type, :productable_id)
+      params.require(:product).permit(:sku, :title, :desc, :cat, :charact, :oldprice, :price, :quantity, :image, :url, :rt_id, :dr_id)
     end
 end

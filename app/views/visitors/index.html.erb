@@ -30,6 +30,10 @@
 <%# if File.file?(file_ost) %>
 <!--<p>Остатки обновлялись в - <%#= File.ctime(file_ost).in_time_zone('Moscow').strftime("%d/%m/%Y %H:%M" ) %></p>-->
 <%# end %>
+<hr>
+<p>Файлы Excel с товарами поставщиков</p>
+<p><%= link_to 'Скачать файл поставщика RT', "/rt.xls", download: "distributor_rt.xls", class: 'btn btn-info' %></p>
+<p><%= link_to 'Скачать файл поставщика DR', "/dr.xls", download: "distributor_dr.xls", class: 'btn btn-info' %></p>
 
 <div class="row mb-2 mr-0 ml-0 align-items-center">
 </div>

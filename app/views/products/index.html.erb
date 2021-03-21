@@ -1,39 +1,31 @@
 <div class="row mb-1 mr-0 ml-0 align-items-center">
-
-<!--  <div class="col-12">-->
+  <div class="col- ">
+    <h3>Товары</h3>
 <!--    <div class="form-import">-->
-<!--      <h3>Обновить каталог</h3>-->
       <%#= form_tag import_products_path, multipart: true do %>
         <%#= file_field_tag :file %>
         <%#= submit_tag "Import" , :class =>'btn btn-primary btn-sm' %>
       <%# end %>
 <!--    </div>-->
-<!--  </div>-->
-
-  <div class="col-3">
-    <h3>Товары</h3>
-    <div class="form-import">
-      <%= form_tag import_products_path, multipart: true do %>
-        <%= file_field_tag :file %>
-        <%= submit_tag "Import" , :class =>'btn btn-primary btn-sm' %>
-      <% end %>
-    </div>
     <span class="align-middle"><small>Всего: <%= Product.product_all_size %></small></span>
     <span class="align-middle"><small>Отфильтровано: <%=@products.count%></small></span>
     <span class="align-middle"><small>Больше 0: <%= Product.product_qt_not_null_size %></small></span>
   </div>
 
-  <div class="col- mr-1">
+  <div class="col- mx-2">
     <div class="dropdown">
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Действия
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
       <%= link_to 'Обновить Цены и Остатки Товаров', update_price_quantity_all_providers_products_path, remote: true, class: 'dropdown-item text-success'%>
-      <%= link_to 'Обновить каталог Товаров', import_insales_xml_products_path, class: 'dropdown-item'%>
-      <%= link_to 'Сформировать файл', create_csv_products_path, class: 'dropdown-item'%>
-      <div class="dropdown-divider"></div>
-      <%= link_to '(Скачать файл)', "/export_insales.csv", download: "export_insales_#{Time.now}.csv", class: 'dropdown-item' %>
+      <%= link_to 'Обновить каталог Товаров', import_insales_xml_products_path, remote: true, class: 'dropdown-item'%>
+      <%= link_to 'Линковать', linking_products_path, class: 'dropdown-item'%>
+      <%= link_to 'Синхронизировать', syncronaize_products_path, class: 'dropdown-item'%>
+      <%= link_to 'Экспортировать', export_api_products_path, class: 'dropdown-item'%>
+      <%#= link_to 'Сформировать файл', create_csv_products_path, class: 'dropdown-item'%>
+<!--      <div class="dropdown-divider"></div>-->
+      <%#= link_to '(Скачать файл)', "/export_insales.csv", download: "export_insales_#{Time.now}.csv", class: 'dropdown-item' %>
     </div>
     </div>
   </div>
@@ -43,17 +35,27 @@
   </div>
   <div class="col- ">
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
-        <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
-        <%= f.collection_select :productable_type_eq, Provider.all, :permalink, :name, {include_blank: 'Поставщики'} , class: "form-control input-sm" , style: "max-width: 150px;" %>
-        <%#= f.collection_select :cat_cont, Product.product_cat, "cat", "cat", {include_blank: false, prompt: 'Категория'} , class: "form-control input-sm" , style: "max-width: 150px;" %>
-        <%= f.search_field :quantity_eq, placeholder: 'Остаток: >=', class: "form-control input-sm" %>
-        <%= f.search_field :productable_id_eq, placeholder: 'ID продукта у поставщика', class: "form-control input-sm" %>
-        <%#= f.select :quantity_in, [['= 0', 0],['> 0', 1]], { include_blank: false, prompt: 'Кол-во'}, class: "form-control input-sm"  %>
+      <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
+      <%#= f.collection_select :name_eq, Distributor.all, :name, :name, {include_blank: 'Поставщики'} , class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%#= f.collection_select :cat_cont, Product.product_cat, "cat", "cat", {include_blank: false, prompt: 'Категория'} , class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%= f.search_field :quantity_gteq, placeholder: 'Остаток: >=', class: "form-control input-sm" %>
+      <%= f.search_field :rt_id_or_dr_id_eq, placeholder: 'ID продукта у поставщика', class: "form-control input-sm" %>
+      <div class="form_search_distributor">
+        <span class="form-control input-sm">
+          <%= f.check_box :rt_id_not_null %>
+          Поставщика RT
+        </span>
+        <span class="form-control input-sm">
+          <%= f.check_box :dr_id_not_null %>
+          Поставщика DR
+        </span>
+      </div>
+      <%#= f.select :quantity_in, [['= 0', 0],['> 0', 1]], { include_blank: false, prompt: 'Кол-во'}, class: "form-control input-sm"  %>
       <div class="form-group ml-2 button_group">
         <% f.submit 'Поиск', class: 'btn btn-info' %>
         <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
         <%= link_to '<span class="oi oi-reload"></span>'.html_safe, products_path, class: 'btn btn-outline-dark' %>
-        <%= link_to '<span class="oi oi-list"></span>'.html_safe, products_path(params.permit(:products).merge(selected_products: @products.pluck(:id), otchet_type: 'selected')), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
+        <%#= link_to '<span class="oi oi-list"></span>'.html_safe, products_path(params.permit(:products).merge(selected_products: @products.pluck(:id), otchet_type: 'selected')), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
       </div>
     <% end %>
   </div>
@@ -64,14 +66,12 @@
   <thead class="thead-light">
     <tr>
       <th><%= check_box_tag 'selectAll', value = 'selectAll'%></th>
-      <th>Sku</th>
+      <th>Артикул</th>
       <th>Поставщик</th>
-      <th>ID поставщика</th>
+      <th>Всего остатков</th>
       <th style="width:250px;">Title</th>
       <th>Desc</th>
-      <th>Цена поставщика</th>
       <th>Цена продажи</th>
-      <th>Остаток</th>
       <th style="width:250px;">Image</th>
       <th>Карточка товара</th>
     </tr>
@@ -79,16 +79,15 @@
 
   <tbody id="products_table">
     <% @products.each do |product| %>
-      <tr class="<%= 'sync' if product.productable.present? %>">
+    <% distributor_product = distributor_product_id_quantity(product) %>
+      <tr class="<%= 'sync' if distributor_product[:available] %>">
         <td><%=check_box_tag "product_ids[]", product.id%></td>
         <td><%= product.sku %></td>
-        <td><%= product.productable_type %></td>
-        <td><%= product.productable_id %></td>
+        <td><%= distributor_product[:html].html_safe %></td>
+        <td><%= product.quantity %></td>
         <td><%= link_to product.title, edit_product_path(product) %></td>
         <td><%= product.desc.truncate(25) if product.desc != nil%></td>
-        <td><%= product.provider_price %></td>
         <td><%= product.price %></td>
-        <td><%= product.quantity %></td>
         <td class="row ml-0 mr-0">
           <% if product.image.present? %>
             <% product.image.split(' ').each do |pict| %>

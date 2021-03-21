@@ -1,24 +1,18 @@
 Rails.application.routes.draw do
 
   resources :visitors, only: [:index]
-  resources :providers
+  resources :distributors
 
-  resources :ashantis do
+  resources :rts do
     collection do
-      get :import
-      get :linking
-      get :syncronaize
-      get :import_linking_syncronaize
+      post :import_insales
       get :unlinking_to_xls
     end
   end
 
-  resources :mbs do
+  resources :drs do
     collection do
-      get :import
-      get :linking
-      get :syncronaize
-      get :import_linking_syncronaize
+      post :import_insales
       get :unlinking_to_xls
     end
   end
@@ -33,10 +27,13 @@ Rails.application.routes.draw do
       get :import_insales_xml
       get :update_price_quantity_all_providers
       get :csv_param
+      get :syncronaize
+      get :linking
+      get :export_api
     end
   end
 
-  root to: 'providers#index'
+  root to: 'distributors#index'
   devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users
 

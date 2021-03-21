@@ -10,26 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210219105105) do
+ActiveRecord::Schema.define(version: 20210318135430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "ashantis", force: :cascade do |t|
-    t.string   "barcode"
-    t.string   "vendorcode"
-    t.string   "images"
-    t.string   "title"
-    t.string   "weight"
-    t.string   "use_until"
-    t.string   "price"
-    t.integer  "quantity"
-    t.string   "desc"
-    t.bigint   "productid_product"
-    t.boolean  "check",             default: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-  end
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -46,21 +30,22 @@ ActiveRecord::Schema.define(version: 20210219105105) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
-  create_table "mbs", force: :cascade do |t|
-    t.string   "fid"
-    t.boolean  "available"
-    t.integer  "quantity"
+  create_table "distributors", force: :cascade do |t|
+    t.string   "name"
+    t.string   "prefix"
+    t.string   "permalink"
     t.string   "link"
-    t.string   "pict"
-    t.string   "price"
-    t.string   "currencyid"
-    t.string   "cat"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "drs", force: :cascade do |t|
+    t.string   "fid"
+    t.integer  "quantity"
+    t.string   "sku"
     t.string   "title"
+    t.string   "price"
     t.string   "desc"
-    t.string   "vendorcode"
-    t.string   "barcode"
-    t.string   "country"
-    t.string   "brend"
     t.string   "param"
     t.boolean  "check",      default: false
     t.datetime "created_at",                 null: false
@@ -73,31 +58,36 @@ ActiveRecord::Schema.define(version: 20210219105105) do
     t.string   "desc"
     t.string   "cat"
     t.string   "charact"
-    t.string   "charact_gab"
     t.decimal  "oldprice"
     t.decimal  "price"
     t.integer  "quantity"
     t.string   "image"
     t.string   "url"
-    t.decimal  "provider_price"
-    t.bigint   "productid_insales"
-    t.bigint   "productid_var_insales"
-    t.string   "productable_type"
-    t.integer  "productable_id"
-    t.boolean  "visible",               default: true
-    t.decimal  "komplekt"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.index ["productable_type", "productable_id"], name: "index_products_on_productable_type_and_productable_id", using: :btree
+    t.bigint   "insales_id"
+    t.bigint   "insales_var_id"
+    t.integer  "rt_id"
+    t.integer  "dr_id"
+    t.string   "weight"
+    t.string   "color"
+    t.string   "size"
+    t.string   "distributor"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["dr_id"], name: "index_products_on_dr_id", using: :btree
+    t.index ["rt_id"], name: "index_products_on_rt_id", using: :btree
   end
 
-  create_table "providers", force: :cascade do |t|
-    t.string   "name"
-    t.string   "prefix"
-    t.string   "link"
-    t.string   "permalink"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "rts", force: :cascade do |t|
+    t.string   "fid"
+    t.integer  "quantity"
+    t.string   "sku"
+    t.string   "title"
+    t.string   "price"
+    t.string   "desc"
+    t.string   "param"
+    t.boolean  "check",      default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "users", force: :cascade do |t|

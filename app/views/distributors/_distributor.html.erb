@@ -1,0 +1,9 @@
+<div class="distributor d-flex" id="distributor_<%= distributor.id %>">
+  <span class="name mr-auto"><%= link_to distributor.name, distributor %></span>
+  <% if can? :edit, distributor %>
+    <span class="edit-delete">
+      <span class="edit ml-2"><%= link_to 'edit', edit_distributor_path(distributor) %></span>
+<!--      <span class="delete ml-2"><%#= link_to 'delete', distributor, method: :delete, data: {confirm: "Вы уверены что хотите удалить поставщика #{distributor.name}?"} %></span>-->
+    </span>
+  <% end %>
+</div>

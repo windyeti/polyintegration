@@ -16,10 +16,10 @@ development:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: integration_development
+  database: polyintegration_development
 
 test:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: integration_test
+  database: polyintegration_test

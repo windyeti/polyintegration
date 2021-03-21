@@ -19,10 +19,10 @@ class Ability
 
   def auth_user
     guest
-    can :manage, Provider
+    can :manage, Distributor
     can :manage, Product
-    can :manage, Mb
-    can :manage, Ashanti
+    can :manage, Rt
+    can :manage, Dr
   end
 
   def admin

@@ -1,0 +1,93 @@
+<div class="row mb-2 mr-0 ml-0 align-items-center">
+  <div class="col-3">
+    <h3>Поставщик DR</h3>
+    <div class="form-import">
+      <%= form_tag import_insales_drs_path, multipart: true do %>
+        <%= file_field_tag :file %>
+        <%= submit_tag "Import" , :class =>'btn btn-primary btn-sm' %>
+      <% end %>
+    </div>
+    <span class="align-middle"><small>Всего: <%= Dr.product_all_size %></small></span>
+    <span class="align-middle"><small>Отфильтровано: <%=@drs.count%></small></span>
+    <span class="align-middle"><small>Больше 0: <%= Dr.where("quantity > 0").size %></small></span>
+    <span class="align-middle"><small>Синхронизируется: <%= Dr.all.map(&:product).reject(&:nil?).size %></small></span>
+  </div>
+  <div class="col- mr-1">
+    <div class="dropdown">
+      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Действия
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <%#= link_to 'Импортировать', import_drs_path, class: 'dropdown-item'%>
+        <%#= link_to 'Линковать', linking_drs_path, class: 'dropdown-item'%>
+        <%#= link_to 'Синхронизировать', syncronaize_drs_path, class: 'dropdown-item'%>
+        <%= link_to 'Создать файл с незалинкованными Товарами Поставщика', unlinking_to_xls_drs_path, remote: true, class: 'dropdown-item'%>
+        <div class="dropdown-divider"></div>
+        <%= link_to '(Скачать файл XLS)', "/drs_unlinking.xls", download: "drs_unlinking.xls", class: 'dropdown-item' %>
+      </div>
+    </div>
+  </div>
+  <div class="col- mr-1">
+    <%#= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_multiple_products_path, class: 'btn btn-secondary', id: 'edit_multiple', remote: true, data: { toggle: 'modal', 'target': '#modal-edit' } %>
+    <%#= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true%>
+  </div>
+  <div class="col- ">
+    <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
+      <%= f.search_field :id_eq, placeholder: 'ID', class: "form-control input-sm"%>
+      <%= f.search_field :title_cont, placeholder: 'Название', class: "form-control input-sm"%>
+      <%#= f.collection_select :brend_cont, Dr.all.select(:brend).uniq, :brend, :brend, {include_blank: 'Бренд'} , class: "form-control input-sm" , style: "max-width: 150px;" %>
+      <%= f.search_field :quantity_eq, placeholder: 'Остаток: =', class: "form-control input-sm"%>
+      <%= f.search_field :quantity_gt, placeholder: 'Остаток: >=', class: "form-control input-sm"%>
+      <%#= f.search_field :vendorcode_eq, placeholder: 'Код производителя', class: "form-control input-sm"%>
+      <%#= f.select :quantity_in, [['= 0', 0],['> 0', 1]], { include_blank: false, prompt: 'Кол-во'}, class: "form-control input-sm"  %>
+      <div class="form-group ml-2 button_group">
+        <% f.submit 'Поиск', class: 'btn btn-info' %>
+        <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
+        <%= link_to '<span class="oi oi-reload"></span>'.html_safe, drs_path, class: 'btn btn-outline-dark' %>
+        <%#= link_to '<span class="oi oi-list"></span>'.html_safe, drs_path(params.permit(:drs).merge(selected_drs: @drs.pluck(:id), otchet_type: 'selected')), title: "Создать файл с выбранными товарами", class: 'btn btn-outline-dark'%>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-condensed table-sm">
+    <thead class="thead-light">
+    <tr>
+      <th><%= check_box_tag 'selectAll', value = 'selectAll'%></th>
+      <th>ID</th>
+      <th>ID в таблице Товаров</th>
+      <th>Артикул</th>
+      <th>Название</th>
+      <th>Остаток</th>
+      <th>Цена</th>
+      <th>Описание</th>
+      <th>Параметры</th>
+      <th colspan="1"></th>
+    </tr>
+    </thead>
+
+    <tbody id="products_table">
+    <% @drs.each do |product| %>
+      <tr class="<%= 'sync' if product.product.present? %>">
+        <td><%=check_box_tag "product_ids[]", product.id%></td>
+        <td><%= product.id %></td>
+        <td><%= link_to product.product.id, product.product if product.product.present? %></td>
+        <td><%= product.sku %></td>
+        <td><%= product.title %></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.price %></td>
+        <td><%= product.desc.truncate(25) if product.desc != nil %></td>
+        <td><%= product.param.truncate(25) if product.param != nil  %></td>
+        <td><%= link_to '<span class="oi oi-eye"></span>'.html_safe, product %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="digg_pagination mt-4 mb-4">
+  <%= will_paginate @drs %>
+</div>
+
+
