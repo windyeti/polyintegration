@@ -15,7 +15,10 @@ logfile
 /public/*.csv
 /public/*.xls
 /public/*.xlsx
+/public/export_insales.csv
 /public/errors_update.txt
+/public/rts_unlinking.xls
+/public/drs_unlinking.xls
 
 # bundler state
 /.bundle

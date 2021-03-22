@@ -4,6 +4,13 @@ require "capistrano/setup"
 # Include default deployment tasks
 require "capistrano/deploy"
 
+require 'capistrano/rails'
+require "capistrano/rvm"
+require 'capistrano3/unicorn'
+require "whenever/capistrano"
+require 'capistrano/rails/console'
+require 'capistrano/delayed_job'
+
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"
@@ -26,12 +33,7 @@ install_plugin Capistrano::SCM::Git
 #   https://github.com/capistrano/rails
 #   https://github.com/capistrano/passenger
 #
-require 'capistrano/rails'
-require "capistrano/rvm"
-require 'capistrano3/unicorn'
-require "whenever/capistrano"
-require 'capistrano/rails/console'
-require 'capistrano/delayed_job'
+
 # require "capistrano/rvm"
 # require "capistrano/rbenv"
 # require "capistrano/chruby"
