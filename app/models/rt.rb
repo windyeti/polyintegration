@@ -9,6 +9,9 @@ class Rt < ApplicationRecord
 
   def self.import_insales(path_file, extend_file)
     puts '=====>>>> СТАРТ YML '+Time.now.to_s
+    Rt.all.each do |rt|
+      rt.update(quantity: 0)
+    end
 
     spreadsheets = open_spreadsheet(path_file, extend_file)
     last_spreadsheet = spreadsheets.last_row.to_i
@@ -19,13 +22,15 @@ class Rt < ApplicationRecord
         title: spreadsheets.cell(i, 'A'),
         desc: spreadsheets.cell(i, 'B'),
         quantity: spreadsheets.cell(i, 'I').to_i,
-        price: spreadsheets.cell(i, 'H').to_f,
+        price: spreadsheets.cell(i, 'F').to_f,
       }
 
       product = Rt
                   .find_by(sku: data[:sku])
 
       product.present? ? product.update(data) : Rt.create(data)
+      p data
+      p product
     end
     puts '=====>>>> FINISH YML '+Time.now.to_s
   end
