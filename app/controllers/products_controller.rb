@@ -6,7 +6,15 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @search = Product.ransack(params[:q])
+    if params[:q]
+      @params = params[:q]
+      @params.delete(:rt_id_not_null) if @params[:rt_id_not_null] == '0'
+      @params.delete(:dr_id_not_null) if @params[:dr_id_not_null] == '0'
+    else
+      @params = []
+    end
+
+    @search = Product.ransack(@params)
     @search.sorts = 'id desc' if @search.sorts.empty?
     @products = @search.result.paginate(page: params[:page], per_page: 100)
     if params['otchet_type'] == 'selected'

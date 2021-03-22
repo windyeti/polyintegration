@@ -40,17 +40,18 @@
       <%#= f.collection_select :cat_cont, Product.product_cat, "cat", "cat", {include_blank: false, prompt: 'Категория'} , class: "form-control input-sm" , style: "max-width: 150px;" %>
       <%= f.search_field :quantity_gteq, placeholder: 'Остаток: >=', class: "form-control input-sm" %>
       <%= f.search_field :rt_id_or_dr_id_eq, placeholder: 'ID продукта у поставщика', class: "form-control input-sm" %>
-      <div class="form_search_distributor">
-        <span class="form-control input-sm">
-          <%= f.check_box :rt_id_not_null %>
-          Поставщика RT
+
+      <div class="form-inline form_search_distributor">
+        <span class="form-group">
+          <%= f.check_box :rt_id_not_null, class: "form-check-input" %>
+          <%= f.label :rt_id_not_null, 'Поставщика RT', class: "form-check-label" %>
         </span>
-        <span class="form-control input-sm">
-          <%= f.check_box :dr_id_not_null %>
-          Поставщика DR
+        <span class="form-group">
+          <%= f.check_box :dr_id_not_null, class: "form-check-input" %>
+          <%= f.label :dr_id_not_null, 'Поставщика DR', class: "form-check-label" %>
         </span>
       </div>
-      <%#= f.select :quantity_in, [['= 0', 0],['> 0', 1]], { include_blank: false, prompt: 'Кол-во'}, class: "form-control input-sm"  %>
+
       <div class="form-group ml-2 button_group">
         <% f.submit 'Поиск', class: 'btn btn-info' %>
         <%= button_tag(type: 'submit', :class => "btn btn-info") do %><span class="oi oi-magnifying-glass"></span><% end %>
