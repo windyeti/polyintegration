@@ -13,8 +13,8 @@ module ProductsHelper
     }
     result[:available] = true if product.rt || product.dr
 
-    result[:html] += "<p>RT: #{product.rt.id}, остаток: #{product.rt.quantity}</p>" if product.rt.present?
-    result[:html] += "<p>DR: #{product.dr.id}, остаток: #{product.dr.quantity}</p>" if product.dr.present?
+    result[:html] += "<p>RT: ID: #{product.rt.id}, остаток: #{product.rt.quantity}, цена: #{product.rt.price}</p>" if product.rt.present?
+    result[:html] += "<p>DR: ID: #{product.dr.id}, остаток: #{product.dr.quantity}, цена: #{product.dr.price}</p>" if product.dr.present?
     result
   end
 end
