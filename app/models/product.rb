@@ -1,6 +1,7 @@
 class Product < ApplicationRecord
   require 'open-uri'
 
+  # TODO NewDistributor
   belongs_to :rt, optional: true
   belongs_to :dr, optional: true
 
@@ -12,6 +13,7 @@ class Product < ApplicationRecord
 
   validate :new_distributor_empty, on: :update
 
+  # TODO NewDistributor
   def new_distributor_empty
     if rt_id.present?
       rt = Rt.find_by(id: rt_id)
@@ -70,6 +72,7 @@ class Product < ApplicationRecord
     end
   end
 
+  # TODO NewDistributor
   def self.linking
     Rt.find_each(batch_size: 1000) do |rt|
       product = Product.find_by(sku: rt.sku)

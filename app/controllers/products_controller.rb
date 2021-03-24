@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
 
   # GET /products
   # GET /products.json
+  # TODO NewDistributor
   def index
     if params[:q]
       @params = params[:q]
@@ -186,6 +187,7 @@ class ProductsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
+    # TODO NewDistributor
     def product_params
       params.require(:product).permit(:sku, :title, :desc, :cat, :charact, :oldprice, :price, :quantity, :image, :url, :rt_id, :dr_id)
     end

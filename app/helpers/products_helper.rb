@@ -6,6 +6,7 @@ module ProductsHelper
     end
   end
 
+  # TODO NewDistributor
   def distributor_product_id_quantity(product)
     result = {
       available: false,
