@@ -1,0 +1,91 @@
+<h2 class="mt-4">Руководство по использованию приложения</h2>
+<div class="rule mt-4">
+  <h4>1. Обновить товары в приложении товарами из InSales</h4>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">1</span>
+    </span>
+    <span class="rule__text">По ссылке “Товары” перейдите на старницу Товаров</span>
+  </p>
+  <%= image_tag "rule_1.png", data: {src: "rule_1.png", title: 'rule_1'}, class: 'rule__image' %>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">2</span>
+    </span>
+    <span class="rule__text">Нажмите кнопку “Действия”.</span>
+  </p>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">3</span>
+    </span>
+    <span>Из выпадающего списка выберите “Обновить каталог Товаров”. <br>Если товаров не было в приложении, то они скачаются из демо-магазина. <br>Если товары были, то они обновиться товарами из демо-магазина.</span>
+  </p>
+  <%= image_tag "rule_2.png", data: {src: "rule_2.png", title: 'rule_2'}, class: 'rule__image' %>
+  <p class="text_rule">
+  <h4>2. Обновить товары поставщиков</h4>
+  <span class="rule__round">
+      <span class="rule__number">4</span>
+    </span>
+  <span>Нажмите на логотип приложения “InSInT”</span>
+  </p>
+  <%= image_tag "rule_3.png", data: {src: "rule_3.png", title: 'rule_3'}, class: 'rule__image' %>
+  <p class="text_rule">
+  <span class="rule__round">
+      <span class="rule__number">5</span>
+    </span>
+  <span>Скачайте файлы Excel с товарами поставщиков</span>
+  </p>
+  <%= image_tag "rule_4.png", data: {src: "rule_4.png", title: 'rule_4'}, class: 'rule__image' %>
+  <p class="text_rule">
+  <p class="rule__notice">
+    Для лучшего погружения во взаимодействие приложения с магазином, рекомендуем внести изменения в цены и остатки некоторых товаров. Запомните их, они отобразяться на товарах в магазине.
+  </p>
+  </p>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">6</span>
+    </span>
+    <span>Нажмите кнопку “Поставщики”.</span>
+  </p>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">7</span>
+    </span>
+    <span>Из выпадающего списка выберите любого поставщика (RT или DR).</span>
+  </p>
+  <%= image_tag "rule_5.png", data: {src: "rule_5.png", title: 'rule_5'}, class: 'rule__image' %>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">8</span>
+    </span>
+    <span>Нажмите кнопку “Choose file”, а затем выберите скаченный и измененный вами файл rt.xls или dr.xls, в зависимости от страницы поставщика:<br>Поставщик RT --> distributor_rt.xls<br>Поставщик DR --> distributor_dr.xls</span>
+  </p>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">9</span>
+    </span>
+    <span>Запустите импорт товаров поставщика нажав кнопку “Import”</span>
+  </p>
+  <%= image_tag "rule_6.png", data: {src: "rule_6.png", title: 'rule_6'}, class: 'rule__image' %>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">10</span>
+    </span>
+    <span>Перейдите на страницу “Товары”</span>
+  </p>
+  <%= image_tag "rule_7.png", data: {src: "rule_7.png", title: 'rule_7'}, class: 'rule__image' %>
+  <p class="text_rule">
+    <span class="rule__round">
+      <span class="rule__number">11</span>
+    </span>
+    <span>Нажмите “Обновить Цены и Остатки Товаров”.<br>Это действие синхронизирует цены и остатки товаров поставщиков с товарами в приложении, а затем проапдейтит товары в магазине новыми ценами и остатками.</span>
+  </p>
+  <%= image_tag "rule_8.png", data: {src: "rule_8.png", title: 'rule_8'}, class: 'rule__image' %>
+  <h4>3. Проверяем изменения в магазине</h4>
+  <p class="text_rule">
+  <p class="rule__text"><%= link_to 'Поставщик RT', 'http://demo-themes.myinsales.ru/collection/jabra' %></p>
+  <p class="rule__text"><%= link_to 'Поставщик DR', 'http://demo-themes.myinsales.ru/collection/plantronics' %></p>
+  </p>
+  <%= image_tag "rule_9.png", data: {src: "rule_9.png", title: 'rule_9'}, class: 'rule__image' %>
+  <p class="text_rule">
+</div>

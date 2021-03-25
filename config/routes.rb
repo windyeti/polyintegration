@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :visitors, only: [:index]
+  resources :visitors, only: [:index] do
+    collection do
+      get :manual
+    end
+  end
   resources :distributors
 
   resources :rts do
@@ -33,7 +37,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'visitors#index'
+  root to: 'welcome#index'
   devise_for :users, :controllers => {:registrations => "registrations"}
   resources :users
 
