@@ -1,41 +1,31 @@
 <div class="row mb-1 mr-0 ml-0 align-items-center">
-  <div class="col- ">
-    <h3>Товары</h3>
-<!--    <div class="form-import">-->
-      <%#= form_tag import_products_path, multipart: true do %>
-        <%#= file_field_tag :file %>
-        <%#= submit_tag "Import" , :class =>'btn btn-primary btn-sm' %>
-      <%# end %>
-<!--    </div>-->
+  <h3 class="mr-2 ">Товары</h3>
+  <div class="col-md-4 ">
     <div class="mr-1">
       <span class="align-middle"><small>Всего: <%= Product.product_all_size %></small></span>
       <span class="align-middle"><small>Отфильтровано: <%=@products.count%></small></span>
       <span class="align-middle"><small>Больше 0: <%= Product.product_qt_not_null_size %></small></span>
     </div>
+  </div>
+  <div class="col-">
     <div class="col- ">
       <div class="dropdown">
-      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Действия
-      </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <%= link_to 'Обновить Цены и Остатки Товаров', update_price_quantity_all_providers_products_path, remote: true, class: 'dropdown-item text-success'%>
-        <%= link_to 'Обновить каталог Товаров', import_insales_xml_products_path, remote: true, class: 'dropdown-item'%>
-        <%= link_to 'Линковать', linking_products_path, class: 'dropdown-item'%>
-        <%= link_to 'Синхронизировать', syncronaize_products_path, class: 'dropdown-item'%>
-        <%= link_to 'Экспортировать', export_api_products_path, class: 'dropdown-item'%>
-        <%#= link_to 'Сформировать файл', create_csv_products_path, class: 'dropdown-item'%>
-  <!--      <div class="dropdown-divider"></div>-->
-        <%#= link_to '(Скачать файл)', "/export_insales.csv", download: "export_insales_#{Time.now}.csv", class: 'dropdown-item' %>
-      </div>
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Действия
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <%= link_to 'Обновить Цены и Остатки Товаров', update_price_quantity_all_providers_products_path, remote: true, class: 'dropdown-item text-success'%>
+          <%= link_to 'Обновить каталог Товаров', import_insales_xml_products_path, remote: true, class: 'dropdown-item'%>
+          <%= link_to 'Линковать', linking_products_path, class: 'dropdown-item'%>
+          <%= link_to 'Синхронизировать', syncronaize_products_path, class: 'dropdown-item'%>
+          <%= link_to 'Экспортировать', export_api_products_path, class: 'dropdown-item'%>
+          <%#= link_to 'Сформировать файл', create_csv_products_path, class: 'dropdown-item'%>
+          <!--      <div class="dropdown-divider"></div>-->
+          <%#= link_to '(Скачать файл)', "/export_insales.csv", download: "export_insales_#{Time.now}.csv", class: 'dropdown-item' %>
+        </div>
       </div>
     </div>
   </div>
-
-<!--  <div class="col- mr-1">-->
-    <%#= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_multiple_products_path, class: 'btn btn-secondary', id: 'edit_multiple', remote: true, data: { toggle: 'modal', 'target': '#modal-edit' } %>
-    <%#= link_to '<span class="oi oi-trash"></span>'.html_safe, delete_selected_products_path, class: 'btn btn-secondary', id: 'deleteAll', remote: true%>
-<!--  </div>-->
-
   <div class="col- ">
     <%= search_form_for @search, html: {class: 'form-inline'}  do |f|%>
       <%= f.search_field :sku_or_title_cont, placeholder: 'Артикул, Название', class: "form-control input-sm"%>
@@ -63,8 +53,6 @@
       </div>
     <% end %>
   </div>
-
-
 </div>
 
 <div class="table-responsive">

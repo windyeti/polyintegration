@@ -1,16 +1,19 @@
 <div class="row mb-2 mr-0 ml-0 align-items-center">
+  <h3 class="mr-2">Поставщик DR</h3>
   <div class="col- mr-1">
-    <h3>Поставщик DR</h3>
     <div class="form-import">
       <%= form_tag import_insales_drs_path, multipart: true do %>
         <%= file_field_tag :file %>
         <%= submit_tag "Import" , :class =>'btn btn-primary btn-sm' %>
       <% end %>
     </div>
+  </div>
+  <div class="col-md-4 mr-1">
     <span class="align-middle"><small>Всего: <%= Dr.product_all_size %></small></span>
-    <span class="align-middle"><small>Отфильтровано: <%=@drs.count%></small></span>
+    <span class="align-middle"><small>Отфильтровано: <%=@drs.count%></small></span><br>
     <span class="align-middle"><small>Больше 0: <%= Dr.where("quantity > 0").size %></small></span>
     <span class="align-middle"><small>Синхронизируется: <%= Dr.all.map(&:product).reject(&:nil?).size %></small></span>
+  </div>
   <div class="col- mr-1">
     <div class="dropdown">
       <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -25,7 +28,6 @@
         <%= link_to '(Скачать файл XLS)', "/drs_unlinking.xls", download: "drs_unlinking.xls", class: 'dropdown-item' %>
       </div>
     </div>
-  </div>
   </div>
 <!--  <div class="col- mr-1">-->
     <%#= link_to '<span class="oi oi-pencil"></span>'.html_safe, edit_multiple_products_path, class: 'btn btn-secondary', id: 'edit_multiple', remote: true, data: { toggle: 'modal', 'target': '#modal-edit' } %>
@@ -56,7 +58,7 @@
     <tr>
       <th><%= check_box_tag 'selectAll', value = 'selectAll'%></th>
       <th>ID</th>
-      <th>ID в таблице Товаров</th>
+      <th>ID в Товарах</th>
       <th>Артикул</th>
       <th>Название</th>
       <th><%= sort_link(@search, :quantity) %></th>
