@@ -4,7 +4,7 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs row">
-    <span class="col-12">
+    <span class="col-md-4">
        Название: <strong><%= @product.title %></strong>
     </span>
 
@@ -19,15 +19,17 @@
       ID Варианта в InSales: <strong><%= @product.insales_var_id %></strong>
     </span>
 
-    <span class="col-12">
+    <span class="col-md-4">
       <%= f.input :price, label: 'Цена продажи:' %>
     </span>
-    <span class="col-12">
+    <span class="col-md-4">
       <%= f.input :quantity, label: 'Остаток:' %>
     </span>
 <!--    # TODO NewDistributor-->
-    <span class="col-12 editable">
+    <span class="col-md-4 editable">
       <%= f.input :rt_id, label: "ID у поставщика RT" %>
+    </span>
+    <span class="col-md-4 editable">
       <%= f.input :dr_id, label: "ID у поставщика DR" %>
     </span>
 
