@@ -9,7 +9,8 @@ Bundler.require(*Rails.groups)
 module Polyintegration
   class Application < Rails::Application
 
-    Capybara.current_driver = :selenium_chrome_headless
+    Capybara.current_driver = :poltergeist
+    # Capybara.current_driver = :selenium_chrome_headless
 
     config.autoload_paths += %W(#{config.root}/app)
 
