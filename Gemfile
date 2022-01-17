@@ -33,6 +33,10 @@ gem 'cancancan'
 gem 'spreadsheet'
 gem 'rename'
 
+gem 'capybara', '>= 2.15'
+gem 'selenium-webdriver'
+gem 'webdrivers'
+
 group :development, :test do
   gem 'byebug', platform: :mri
 end
